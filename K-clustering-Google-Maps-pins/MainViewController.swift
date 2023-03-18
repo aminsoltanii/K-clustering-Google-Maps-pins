@@ -9,8 +9,8 @@ import UIKit
 import GoogleMaps
 class MainViewController: UIViewController {
     
-    let places:[String] = ["Tehran","qom","hamedan","saveh","arak","karaj"]
-    let coordinates:[(lat:Double,lon:Double)] = [(lat:35.7219,lon:51.3347),(lat:34.6416,lon:50.8746),(lat:34.7983,lon:48.5148),(lat:35.0240,lon:50.3549),(lat:34.0873,lon:49.7022),(lat:35.8439,lon:50.9715)]
+    let places:[String] = ["pin1","pin2","pin3","pin4","pin5","pin6","pin7","pin8","pin9","pin10"]
+    let coordinates:[(lat:Double,lon:Double)] = [(lat:35.7000,lon:51.3000),(lat:35.7100,lon:51.3000),(lat:35.6900,lon:51.3000),(lat:35.7100,lon:51.3100),(lat:35.7100,lon:51.2900),(lat:35.6900,lon:51.3100),(lat:35.7050,lon:51.3050),(lat:35.6950,lon:51.3050),(lat:35.7070,lon:51.2900),(lat:35.7200,lon:51.3000)]
     
     var firstMarkers:[GMSMarker] = []
     var generatedMarkes:[GMSMarker] = []
@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
     
-        let camera = GMSCameraPosition.camera(withLatitude: 35.7219, longitude: 51.3347, zoom: 5 )
+        let camera = GMSCameraPosition.camera(withLatitude: 35.7219, longitude: 51.3347, zoom: 10 )
         let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
         mapView.delegate = self
         
@@ -63,7 +63,7 @@ class MainViewController: UIViewController {
     }
    
     func changeMarkers(zoomLevel:Float){
-        if(zoomLevel < 6){
+        if(zoomLevel < 11.5){
             for mark in firstMarkers {
                 mark.map = nil
             }
