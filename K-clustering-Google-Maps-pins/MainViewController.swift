@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(kClustringAlgorithm(k:3,data:[(lat:35.700,lon:57.500),(lat:12.200,lon:98.01),(lat:98.90,lon:12.34),(lat:34.65,lon:45.76),(lat:76.77,lon:9.99),(lat:81.23,lon:65.47),(lat:05.55,lon:56.55),(lat:50.12,lon:45.00)]))
+        print(optimizingKClusterin(maximumIterations:10,k:3,data:[(lat:35.700,lon:57.500),(lat:12.200,lon:98.01),(lat:98.90,lon:12.34),(lat:34.65,lon:45.76),(lat:76.77,lon:9.99),(lat:81.23,lon:65.47),(lat:05.55,lon:56.55),(lat:50.12,lon:45.00)]))
         
     }
     
@@ -53,14 +53,62 @@ class MainViewController: UIViewController {
         return output
     }
     
+    func optimizingKClusterin(maximumIterations:Int,k:Int,data:[(lat:Double,lon:Double)]) ->[[(Double,Double)]]{
+        
+        var optimizedResults = kClustringAlgorithm(k: k, data: data)
+        var varianceOfThisIteration = calcVarianceOfIteration(results:optimizedResults)
+        for _ in 0...maximumIterations-1{
+          let results = kClustringAlgorithm(k: k, data: data)
+            if(varianceOfThisIteration > calcVarianceOfIteration(results: results)){
+                varianceOfThisIteration = calcVarianceOfIteration(results: results)
+                optimizedResults = results
+            }
+           
+        }
+        return optimizedResults
+    }
+    
     func calcDistance(first:(lat:Double,lon:Double),second:(lat:Double,lon:Double))->Double{
         // fromula for distance by  latitude and longitude
+        
         let exp = acos(sin(first.lat)*sin(second.lat)+cos(first.lat)*cos(second.lat)*cos(second.lon-first.lon))*6371
         return exp
     }
     
-    
+    func calcVarianceOfIteration(results:[[(Double,Double)]])->Double{
+        
+        var numberOfElementsInEachCluster:[Int] = []
+        
+        // Get the number of elements in each cluster and calculate the variance
+        for arr in results{
+            numberOfElementsInEachCluster.append(arr.count)
+        }
+        let variance = variance(arr:numberOfElementsInEachCluster)
+        
+        return variance
+    }
 
+    func variance(arr:[Int])->Double{
+        //Vaiance Forumla ; Simple math :)
+        var sum = 0
+        var SD = 0.0
+        var S = 0.0
+       
+        // Calculating the mean
+        for x in 0..<arr.count{
+           sum += arr[x]
+        }
+        let mean = sum/arr.count
+       
+        // Calculating Variance
+        for y in 0..<arr.count{
+           SD += pow(Double(arr[y] - mean), 2)
+        }
+        S = SD/Double(arr.count)
+    
+        return S
+       
+    }
 
 
     
