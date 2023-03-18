@@ -1,0 +1,6 @@
+framework module Pods_K_clustering_Google_Maps_pins {
+  umbrella header "Pods-K-clustering-Google-Maps-pins-umbrella.h"
+
+  export *
+  module * { export * }
+}
