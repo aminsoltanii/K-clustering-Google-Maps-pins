@@ -63,7 +63,7 @@ class MainViewController: UIViewController {
     }
    
     func changeMarkers(zoomLevel:Float){
-        if(zoomLevel > 6){
+        if(zoomLevel < 6){
             for mark in firstMarkers {
                 mark.map = nil
             }
